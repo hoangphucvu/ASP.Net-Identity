@@ -7,14 +7,13 @@ using System.Web.Mvc;
 
 namespace Identity.Controllers
 {
-    public class HomeController : Controller
+    public class HomeController : AppController
     {
         // GET: Home
         public ActionResult Index()
         {
-            var claimsIdentity = User.Identity as ClaimsIdentity;
             //Accessing custom claim data
-            ViewBag.Country = claimsIdentity.FindFirst(ClaimTypes.Country).Value;
+            ViewBag.Country = CurrentUser.Country;
             return View();
         }
     }
