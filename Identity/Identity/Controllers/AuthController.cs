@@ -64,5 +64,14 @@ namespace Identity.Controllers
 
             return returnUrl;
         }
+
+        public ActionResult Logout()
+        {
+            var ctx = Request.GetOwinContext();
+            var authManager = ctx.Authentication;
+
+            authManager.SignOut("ApplicationCookie");
+            return RedirectToAction("index", "home");
+        }
     }
 }

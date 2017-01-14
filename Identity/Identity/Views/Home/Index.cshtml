@@ -4,6 +4,9 @@
 
 <h2>
     <p>
-        Hello @User.Identity.Name
+        Hello @User.Identity.Name .How's the weather in @ViewBag.Country?
     </p>
 </h2>
+<p>
+    <a href="@Url.Action("logout", "auth")">Log Out</a>
+</p>
