@@ -1,0 +1,19 @@
+﻿@model Identity.Models.UserIdentity
+@{
+    ViewBag.Title = "Register";
+    Layout = "~/Views/_Layout.cshtml";
+}
+
+<h2>Register</h2>
+
+<h2>Register</h2>
+
+@Html.ValidationSummary(false)
+
+@using (Html.BeginForm())
+{
+    @Html.EditorForModel()
+    <p>
+        <button type="submit">Register</button>
+    </p>
+}
