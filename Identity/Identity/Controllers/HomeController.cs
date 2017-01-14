@@ -12,8 +12,6 @@ namespace Identity.Controllers
         // GET: Home
         public ActionResult Index()
         {
-            //Accessing custom claim data
-            ViewBag.Country = CurrentUser.Country;
             return View();
         }
     }
