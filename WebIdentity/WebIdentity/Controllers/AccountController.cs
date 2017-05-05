@@ -5,13 +5,14 @@ using System.Web.Mvc;
 using Microsoft.AspNet.Identity;
 using Microsoft.AspNet.Identity.EntityFramework;
 using Microsoft.AspNet.Identity.Owin;
+using WebIdentity.Models;
 
 namespace WebIdentity.Controllers
 {
     public class AccountController : Controller
     {
-        public UserManager<IdentityUser> UserManager => HttpContext.GetOwinContext().Get<UserManager<IdentityUser>>();
-        public SignInManager<IdentityUser, string> SignInManager => HttpContext.GetOwinContext().Get<SignInManager<IdentityUser, string>>();
+        public UserManager<ExtendedUser> UserManager => HttpContext.GetOwinContext().Get<UserManager<ExtendedUser>>();
+        public SignInManager<ExtendedUser, string> SignInManager => HttpContext.GetOwinContext().Get<SignInManager<ExtendedUser, string>>();
 
         // GET: Account
         public ActionResult Index()
@@ -54,7 +55,13 @@ namespace WebIdentity.Controllers
                 return RedirectToAction("Index", "Home");
             }
 
-            var identityResult = await UserManager.CreateAsync(new IdentityUser(model.Username), model.Password);
+            var user = new ExtendedUser
+            {
+                UserName = model.Username,
+                FullName = model.FullName
+            };
+            user.Addresses.Add(new Address { AddressLine = model.AddressLine, Country = model.Country, UserId = user.Id });
+            var identityResult = await UserManager.CreateAsync(user, model.Password);
 
             if (identityResult.Succeeded)
             {

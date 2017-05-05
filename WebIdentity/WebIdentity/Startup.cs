@@ -6,6 +6,7 @@ using Microsoft.AspNet.Identity.Owin;
 using Microsoft.Owin;
 using Microsoft.Owin.Security.Cookies;
 using Owin;
+using WebIdentity.Models;
 
 [assembly: OwinStartup(typeof(WebIdentity.Startup))]
 
@@ -17,15 +18,15 @@ namespace WebIdentity
         {
             const string connectionString =
                 @"Data Source=.;Database=AspNetIdentityDemo;trusted_connection=yes;";
-            app.CreatePerOwinContext(() => new IdentityDbContext(connectionString));
-            app.CreatePerOwinContext<UserStore<IdentityUser>>(
-                (opt, cont) => new UserStore<IdentityUser>(cont.Get<IdentityDbContext>()));
-            app.CreatePerOwinContext<UserManager<IdentityUser>>(
-                (opt, cont) => new UserManager<IdentityUser>(cont.Get<UserStore<IdentityUser>>()));
+            app.CreatePerOwinContext(() => new ExtendedUserDbContext(connectionString));
+            app.CreatePerOwinContext<UserStore<ExtendedUser>>(
+                (opt, cont) => new UserStore<ExtendedUser>(cont.Get<ExtendedUserDbContext>()));
+            app.CreatePerOwinContext<UserManager<ExtendedUser>>(
+                (opt, cont) => new UserManager<ExtendedUser>(cont.Get<UserStore<ExtendedUser>>()));
 
-            app.CreatePerOwinContext<SignInManager<IdentityUser, string>>(
+            app.CreatePerOwinContext<SignInManager<ExtendedUser, string>>(
                (opt, cont) =>
-                   new SignInManager<IdentityUser, string>(cont.Get<UserManager<IdentityUser>>(), cont.Authentication));
+                   new SignInManager<ExtendedUser, string>(cont.Get<UserManager<ExtendedUser>>(), cont.Authentication));
 
             app.UseCookieAuthentication(new CookieAuthenticationOptions
             {
