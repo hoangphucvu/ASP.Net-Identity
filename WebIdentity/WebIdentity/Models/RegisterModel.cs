@@ -1,4 +1,4 @@
-﻿namespace WebIdentity.Controllers
+﻿namespace WebIdentity.Models
 {
     public class RegisterModel
     {
